@@ -19,26 +19,54 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
 
     final public Map<Expression, Number> values = new HashMap<>();
 
-    private Function<List<Number>,Number> plus2int =
+    private final Function<List<Number>,Number> plus2int =
             args -> { int arg1 = args.get(0).intValue();
-                      int arg2 = args.get(1).intValue();
-                      return arg1 + arg2; };
-
-    private Function<List<Number>,Number> plus2float =
+                int arg2 = args.get(1).intValue();
+                return arg1 + arg2; };
+    private final Function<List<Number>,Number> plus2float =
             args -> { float arg1 = args.get(0).floatValue();
-                      float arg2 = args.get(1).floatValue();
-                      return arg1 + arg2; };
+                float arg2 = args.get(1).floatValue();
+                return arg1 + arg2; };
 
-    private Function<List<Number>,Number> minus2float =
+    private final Function<List<Number>,Number> minus2float =
             args -> { float arg1 = args.get(0).floatValue();
                 float arg2 = args.get(1).floatValue();
                 return arg1 - arg2; };
 
-    private Function<List<Number>,Number> multfloat =
+    private final Function<List<Number>,Number> minus2int =
+            args -> { float arg1 = args.get(0).intValue();
+                int arg2 = args.get(1).intValue();
+                return arg1 - arg2; };
+
+    private final Function<List<Number>,Number> multfloat =
             args -> { float arg1 = args.get(0).floatValue();
                 float arg2 = args.get(1).floatValue();
                 return arg1 * arg2; };
 
+    private final Function<List<Number>,Number> minus1float =
+            args -> { float arg1 = args.get(0).floatValue();
+                float arg2 = args.get(1).floatValue();
+                return arg1 - arg2; };
+
+    private final Function<List<Number>,Number> minus1int =
+            args -> { int arg1 = args.get(0).intValue();
+                int arg2 = args.get(1).intValue();
+                return arg1 - arg2; };
+
+    private final Function<List<Number>,Number> DivInt =
+            args -> { int arg1 = args.get(0).intValue();
+                int arg2 = args.get(1).intValue();
+                return arg1 / arg2; };
+
+    private final Function<List<Number>,Number> DivFloat =
+            args -> { float arg1 = args.get(0).floatValue();
+                float arg2 = args.get(1).floatValue();
+                return arg1 / arg2; };
+
+    private final Function<List<Number>,Number> ModInt =
+            args -> { int arg1 = args.get(0).intValue();
+                int arg2 = args.get(1).intValue();
+                return arg1 % arg2; };
     /**
      * The map below associates each operator for each possible type with a function
      * (lambda expression), that represents the semantics of that operation. These
@@ -50,15 +78,29 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
      */
     final private Map<Operator, Map<Type, Function<List<Number>,Number>>> operatorFunctions = Map.ofEntries(
             entry(PLUS2, Map.ofEntries(
-                    entry(INT, plus2int),
-                    entry(FLOAT, plus2float) )
+                    entry(INT, plus2int ),
+                    entry(FLOAT, plus2float ) )
             ),
             entry(MINUS2, Map.ofEntries(
-                    entry(FLOAT, minus2float) )
+                    entry(FLOAT, minus2float),
+                    entry(INT, minus2int) )
             ),
             entry(MULT, Map.ofEntries(
-                    entry(FLOAT, multfloat) )
-            ));
+                    entry(FLOAT, multfloat ) )
+            ),
+            entry (MINUS1, Map.ofEntries(
+                    entry(FLOAT, minus1float),
+                    entry(INT, minus1int))
+            ),
+            entry(DIV, Map.ofEntries(
+                    entry(FLOAT, DivFloat),
+                    entry(INT, DivInt))
+            ),
+            entry(MOD, Map.ofEntries(
+                    entry(INT, ModInt)
+            ))
+    );
+
 
     public ProgramExecutorVisitor(ProgramTypeVisitor pv) {
         this.pv = pv;
