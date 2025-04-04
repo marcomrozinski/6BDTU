@@ -23,7 +23,11 @@ public class ProgramTypeVisitor extends ProgramVisitor {
     final private Map<Operator,List<Type>> operatorTypes = Map.ofEntries(
             entry(PLUS2, List.of(INT, FLOAT)),
             entry(MINUS2, List.of(INT, FLOAT)),
-            entry(MULT, List.of(INT, FLOAT)));
+            entry(MULT, List.of(INT, FLOAT)),
+            entry(MOD, List.of(INT)),
+            entry(PLUS1, List.of(INT, FLOAT)),
+            entry(MINUS1, List.of(INT, FLOAT)),
+            entry(DIV, List.of(INT, FLOAT)));
 
     final public Map<Expression, Type> typeMapping = new HashMap<>();
 

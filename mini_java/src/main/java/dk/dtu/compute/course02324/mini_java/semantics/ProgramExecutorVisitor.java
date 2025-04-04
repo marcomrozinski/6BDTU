@@ -27,6 +27,14 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
             args -> { float arg1 = args.get(0).floatValue();
                 float arg2 = args.get(1).floatValue();
                 return arg1 + arg2; };
+    private final Function<List<Number>,Number> plus1int =
+            args -> { int arg1 = args.get(0).intValue();
+                int arg2 = args.get(1).intValue();
+                return arg1 + arg2; };
+    private final Function<List<Number>,Number> plus1float =
+            args -> { float arg1 = args.get(0).floatValue();
+                float arg2 = args.get(1).floatValue();
+                return arg1 + arg2; };
 
     private final Function<List<Number>,Number> minus2float =
             args -> { float arg1 = args.get(0).floatValue();
@@ -80,6 +88,10 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
             entry(PLUS2, Map.ofEntries(
                     entry(INT, plus2int ),
                     entry(FLOAT, plus2float ) )
+            ),
+            entry(PLUS1, Map.ofEntries(
+                    entry(INT, plus1int ),
+                    entry(FLOAT, plus1float ) )
             ),
             entry(MINUS2, Map.ofEntries(
                     entry(FLOAT, minus2float),
