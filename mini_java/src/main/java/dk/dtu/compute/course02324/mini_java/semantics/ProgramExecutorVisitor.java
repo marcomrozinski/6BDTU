@@ -12,12 +12,24 @@ import static dk.dtu.compute.course02324.mini_java.model.Operator.*;
 import static dk.dtu.compute.course02324.mini_java.utils.Shortcuts.FLOAT;
 import static dk.dtu.compute.course02324.mini_java.utils.Shortcuts.INT;
 import static java.util.Map.entry;
+/**
+ * This class is responsible for executing a MiniJava program by visiting various nodes
+ * (for example, statements, expressions, and declarations) in the program's abstract syntax tree and executing their meaning or behavior.
+ * The execution involves evaluating expressions, performing mathematical operations, and handling variables.
+ */
 
 public class ProgramExecutorVisitor extends ProgramVisitor {
 
     final private ProgramTypeVisitor pv;
 
     final public Map<Expression, Number> values = new HashMap<>();
+
+
+    /**
+     * Functions for performing mathematical operations, such as addition, subtraction,
+     * multiplication, division, modulus, and unary operations for integers and floats.
+     */
+
 
     private final Function<List<Number>,Number> plus2int =
             args -> { int arg1 = args.get(0).intValue();
@@ -135,6 +147,9 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
         }
     }
 
+    /**
+     * Here visit a variable declaration, evaluates its expression if present, and assigns the value to the variable.
+     */
     @Override
     public void visit(Declaration declaration) {
         if (declaration.expression != null) {
@@ -144,7 +159,9 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
         }
     }
 
-
+    /**
+     * This visits and executes a PrintStatement by evaluating its expression and printing the result.
+     */
     @Override
     public void visit(PrintStatement printStatement) {
         printStatement.expression.accept(this);
@@ -153,6 +170,12 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
 
     }
 
+    /**
+     * Executes a while loop by repeatedly evaluating its condition and, if the condition is true,
+     * executing the loop's body. The process continues until the condition evaluates to null
+     * or a non-positive value.
+     * @param whileLoop
+     */
     @Override
     public void visit(WhileLoop whileLoop) {
         whileLoop.expression.accept(this);
@@ -166,7 +189,14 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
             value = values.get(whileLoop.expression);
         }
     }
-
+/**
+ * This method visits an assignment, calculates the value of the expression (on the righthand side),
+ * and then stores the computed value in the variable (on the lefthand side).
+ * For example, if the code is:
+ * x = 5 + 3;`
+ * The method will first calculate the value of 5 + 3, which is 8.
+ * Then, it will store the value `8` in the variable x.
+*/
     @Override
     public void visit(Assignment assignment) {
         assignment.expression.accept(this);
@@ -175,7 +205,10 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
         values.put(assignment.variable, result);
     }
 
-    @Override
+    /**
+     * Visits a literal (for example integer or float) and stores its value in the values map.
+*/
+     @Override
     public void visit(Literal literal) {
         if (literal instanceof IntLiteral) {
             values.put(literal, ((IntLiteral) literal).literal);
@@ -192,7 +225,11 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
         // should have added this value for variable already).
     }
 
-    @Override
+/**
+ * Evaluates an OperatorExpression by visiting its operands, applying the corresponding operator,
+ * and storing the computed result in the values map.
+*/
+ @Override
     public void visit(OperatorExpression operatorExpression) {
         Type type = pv.typeMapping.get(operatorExpression);
         Map<Type,Function<List<Number>,Number>> typeMap = operatorFunctions.get(operatorExpression.operator);
