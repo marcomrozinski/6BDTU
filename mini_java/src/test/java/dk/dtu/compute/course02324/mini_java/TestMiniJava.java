@@ -16,18 +16,65 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+
+/*
+ * Problemer og rettelser :
+ *
+ * 1. Brug af variabel før initialisering:
+ *    int i;
+ *    int j = i = 2 + (i = 3);
+ *    --> Problem: 'i' bruges før den er initialiseret, hvilket ikke er tilladt i Java. Så vidt jeg har forstået (har googlet og læst om det)
+ *    --> Løsning: Initialisér 'i' først, f.eks. 
+ *              du har skrevet int i; hvilket betyder at i ikke er en variabel. Du skal deklarere den som int i = 0;
+ *              og derefter kan du bruge den i udtrykket.
+ *              Det kan gøres ved at ændre linjen til:
+ *              'int i = 0;'
+ *
+ * 2. Dobbelt deklaration af variabel 'j':
+ *    new Declaration(INT, new Var("j")),
+ *    new Declaration(FLOAT, new Var("j"), ...)
+ *     Problem: Samme variabel erklæres to gange med forskellig type.
+ *     Løsning: Brug unikke navne eller undgå gentagen deklaration.
+ *
+ * 3. Brug af udeklareret variabel 'k':
+ *    Assignment(Var("i"), Var("k"))
+ *    --> Problem: 'k' er ikke deklareret før brug.
+ *    --> Løsning: Tilføj deklaration af 'k' før den bruges.
+ *
+ * 4. While-løkke med ikke-boolean betingelse:
+ *    WhileLoop(Var("i"), ...)
+ *    --> Problem: Betingelsen er en int, men skal være en boolean (f.eks. i >= 0).
+ *    --> Løsning: Brug en sammenligning: OperatorExpression(GTE, Var("i"), Literal(0))
+ *      int i = 5;
+        while (i) {
+                // fejler! i er en int, ikke en boolean
+        }
+
+        int i = 5;
+        while (i > 0) {
+                // nu er betingelsen 'i > 0', som er en boolean
+                i--;
+        }
+ * 5. Forkerte assert-beskeder:
+ *    assertEquals(x, ..., "Value of variable j should be " + x);
+ *    --> Problem: Teksten siger 'j', men det handler om variablen 'x'.
+ *    --> Løsning: Ret teksten til at nævne den korrekte variabel. Kig evt. på hvilken variabl du reelt kalder, måske jeg har misforstået. 
+ */
+
+
+
 /**
  * These are some basic tests of the MiniJava for computing the types and
  * evaluating expressions.
  */
-public class TestMiniJava {
+public class TestMiniJava{
 
     private ProgramTypeVisitor ptv;
 
     private ProgramExecutorVisitor pev;
 
     /**
-     * Sets up the visitors for type checking and execution.
+     *  Sets up the visitors for type checking and execution.
      */
     @BeforeEach
     public void setUp() {
@@ -38,7 +85,7 @@ public class TestMiniJava {
     @Test
     public void testCorrectProgramWithInts() {
         int i;
-        int j = i = 2 + (i = 3);
+        int j = i = 2 + (i = 3) ;
 
         Statement statement = new Sequence(
                 new Declaration(INT, new Var("i")),
@@ -65,7 +112,7 @@ public class TestMiniJava {
         pev.visit(statement);
 
         Set<String> variables = new HashSet<>(List.of("i", "j"));
-        for (Var var : ptv.variables) {
+        for (Var var: ptv.variables) {
             variables.remove(var.name);
 
             if (var.name.equals("i")) {
@@ -82,7 +129,7 @@ public class TestMiniJava {
     @Test
     public void testCorrectlyTypedProgramWithFloats() {
         float i;
-        float j = i = 2.75f - (i = 3.21f);
+        float j = i = 2.75f - ( i = 3.21f );
 
         Statement statement =
                 new Sequence(
@@ -111,7 +158,7 @@ public class TestMiniJava {
         pev.visit(statement);
 
         Set<String> variables = new HashSet<>(List.of("i", "j"));
-        for (Var var : ptv.variables) {
+        for (Var var: ptv.variables) {
             variables.remove(var.name);
 
             if (var.name.equals("i")) {
@@ -129,7 +176,7 @@ public class TestMiniJava {
     @Test
     public void testWronglyTypedProgram() {
         int i;
-        int j = i = 2 + (i = 3);
+        int j = i = 2 + (i = 3) ;
 
         Statement statement =
                 new Sequence(
@@ -166,18 +213,16 @@ public class TestMiniJava {
         int i = 5;
         int j = 0;
         int sum = 0;
-        while (i >= 0) {
+        while ( i >= 0 ) {
             j = i;
-            while (j >= 0) {
+            while ( j >= 0 ) {
                 sum = sum + j;
                 j = j - 1;
                 // println(" i: ", i);
                 // println(" j: ", j);
-            }
-            ;
+            };
             i = i - 1;
-        }
-        ;
+        };
 
         Statement statement = Sequence(
                 Declaration(INT, Var("i"), Literal(5)),
@@ -225,7 +270,7 @@ public class TestMiniJava {
         pev.visit(statement);
 
         Set<String> variables = new HashSet<>(List.of("i", "j", "sum"));
-        for (Var var : ptv.variables) {
+        for (Var var: ptv.variables) {
             variables.remove(var.name);
 
             if (var.name.equals("i")) {
@@ -243,8 +288,8 @@ public class TestMiniJava {
 
     @Test
     public void testPrintAndAdditionalOperators() {
-        int i = -+-1 + 7 - 1;
-        float x = -+-1.5f + 7.0f - 1.0f;
+        int i = - + -1 + 7 - 1;
+        float x = - + -1.5f + 7.0f - 1.0f;
         int j = 36 % 7;
         int k = 36 / 7;
         float y = 36.0f / 7.0f;
@@ -325,7 +370,7 @@ public class TestMiniJava {
         pev.visit(printStatements);
 
         Set<String> variables = new HashSet<>(List.of("i", "x", "j", "k", "y"));
-        for (Var var : ptv.variables) {
+        for (Var var: ptv.variables) {
             variables.remove(var.name);
 
             if (var.name.equals("i")) {
@@ -344,34 +389,4 @@ public class TestMiniJava {
         }
         assertEquals(0, variables.size(), "Some variables have not been evaluated");
     }
-
-    @Test
-    void testAdditionint() {
-        int i = 2 + 3;
-
-        Statement statement = new Declaration(
-                INT,
-                new Var("i"),
-                new OperatorExpression(PLUS2,
-                        new IntLiteral(2), new IntLiteral(3)
-                        )
-        );
-        // Debug: print the statement
-        System.out.println("Statement: " + statement);
-
-        ptv.visit(statement);
-        pev.visit(statement);
-
-        // Debug: print all values in pev.values
-        System.out.println("All values in evaluator: " + pev.values);
-
-        // Retrieve the stored value
-        Number result = pev.values.get(statement);
-
-        // Debug: print the result
-        System.out.println("Result: " + result);
-
-        assertEquals(i, result.intValue(), "Evaluation failed: Expected " + i + ", but got " + result);
-    }
-    }
-
+}

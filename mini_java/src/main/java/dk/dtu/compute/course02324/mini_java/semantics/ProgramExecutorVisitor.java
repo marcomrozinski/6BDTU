@@ -27,6 +27,12 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
             args -> { float arg1 = args.get(0).floatValue();
                 float arg2 = args.get(1).floatValue();
                 return arg1 + arg2; };
+    private final Function<List<Number>, Number> plus1int =
+            args -> +args.get(0).intValue();
+
+    private final Function<List<Number>, Number> plus1float =
+            args -> +args.get(0).floatValue();
+
 
     private final Function<List<Number>,Number> minus2float =
             args -> { float arg1 = args.get(0).floatValue();
@@ -34,9 +40,11 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
                 return arg1 - arg2; };
 
     private final Function<List<Number>,Number> minus2int =
-            args -> { float arg1 = args.get(0).intValue();
+            args -> {
+                int arg1 = args.get(0).intValue();
                 int arg2 = args.get(1).intValue();
-                return arg1 - arg2; };
+                return arg1 - arg2;
+            };
 
     private final Function<List<Number>,Number> multfloat =
             args -> { float arg1 = args.get(0).floatValue();
@@ -44,14 +52,10 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
                 return arg1 * arg2; };
 
     private final Function<List<Number>,Number> minus1float =
-            args -> { float arg1 = args.get(0).floatValue();
-                float arg2 = args.get(1).floatValue();
-                return arg1 - arg2; };
+            args -> -args.get(0).floatValue();
 
     private final Function<List<Number>,Number> minus1int =
-            args -> { int arg1 = args.get(0).intValue();
-                int arg2 = args.get(1).intValue();
-                return arg1 - arg2; };
+            args -> -args.get(0).intValue();
 
     private final Function<List<Number>,Number> DivInt =
             args -> { int arg1 = args.get(0).intValue();
@@ -67,6 +71,14 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
             args -> { int arg1 = args.get(0).intValue();
                 int arg2 = args.get(1).intValue();
                 return arg1 % arg2; };
+
+    private final Function<List<Number>, Number> multint =
+            args -> {
+                int arg1 = args.get(0).intValue();
+                int arg2 = args.get(1).intValue();
+                return arg1 * arg2;
+            };
+
     /**
      * The map below associates each operator for each possible type with a function
      * (lambda expression), that represents the semantics of that operation. These
@@ -81,13 +93,19 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
                     entry(INT, plus2int ),
                     entry(FLOAT, plus2float ) )
             ),
+            entry(PLUS1, Map.ofEntries(
+                    entry(INT, plus1int ),
+                    entry(FLOAT, plus1float ) )
+            ),
             entry(MINUS2, Map.ofEntries(
                     entry(FLOAT, minus2float),
                     entry(INT, minus2int) )
             ),
             entry(MULT, Map.ofEntries(
-                    entry(FLOAT, multfloat ) )
-            ),
+                    entry(FLOAT, multfloat ),
+                    entry(INT, multint)
+            )),
+
             entry (MINUS1, Map.ofEntries(
                     entry(FLOAT, minus1float),
                     entry(INT, minus1int))
@@ -126,15 +144,12 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
         }
     }
 
+
     @Override
     public void visit(PrintStatement printStatement) {
         printStatement.expression.accept(this);
-
-        /* TODO Assignment 6a: Here some code which actually executes the
-                print operation must be added. It should actually print out the
-                prefix of the print statement and then the CURRENT value of the
-                expression.
-         */
+        Number result = values.get(printStatement.expression);
+        System.out.println(printStatement.prefix + result);
 
     }
 
@@ -142,20 +157,14 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
     public void visit(WhileLoop whileLoop) {
         whileLoop.expression.accept(this);
 
-        /* TODO Assignment 6b: Here some code which actually executes the
-                while loop must be added. This code should get the current value
-                of the expression, and if that expression is greater or equal
-                than 0, execute the statement of the loop (by recursively
-                executing the statement by invoking the accept method). After
-                that, it should trigger the evaluation of the expression of the
-                while loop again. If the value of this expression is still greater
-                or equal than 0, the execution of the loop should be continued ...
-                For doing this, the respective accept methods need to be
-                issued on the relevant "components" of the while statements,
-                and the values of these "components" can then be obtained by
-                looking them up in the values Map.
-         */
+        whileLoop.expression.accept(this);
+        Number value = values.get(whileLoop.expression);
 
+        while (value != null && value.doubleValue() >= 0) {
+            whileLoop.statement.accept(this);
+            whileLoop.expression.accept(this);
+            value = values.get(whileLoop.expression);
+        }
     }
 
     @Override
