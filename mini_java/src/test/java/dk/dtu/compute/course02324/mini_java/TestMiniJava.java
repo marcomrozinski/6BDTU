@@ -257,7 +257,7 @@ public class TestMiniJava{
     }
 
     /**
-     * Tests various operators (unary, binary) with print statements
+     * Tests various operators with print statements
      */
 
     @Test
