@@ -389,4 +389,71 @@ public class TestMiniJava{
         }
         assertEquals(0, variables.size(), "Some variables have not been evaluated");
     }
+    @Test
+    public void testMultiplicationOperators() {
+        int i = 3 * 5;
+        float x = 3.5f * 2.0f;
+
+        Statement statement = Sequence(
+                Declaration(INT,
+                        Var("i"),
+                        OperatorExpression(MULT,
+                                Literal(3),
+                                Literal(5)
+                        )
+                ),
+                Declaration(FLOAT,
+                        Var("x"),
+                        OperatorExpression(MULT,
+                                Literal(3.5f),
+                                Literal(2.0f)
+                        )
+                ),
+                PrintStatement("3 * 5 = ", Var("i")),
+                PrintStatement("3.5f * 2.0f = ", Var("x"))
+        );
+
+        ptv.visit(statement);
+        if (!ptv.problems.isEmpty()) {
+            fail("The type visitor did detect typing problems, which should not be there!");
+        }
+
+        pev.visit(statement);
+
+        Set<String> variables = new HashSet<>(List.of("i", "x"));
+        for (Var var: ptv.variables) {
+            variables.remove(var.name);
+
+            if (var.name.equals("i")) {
+                assertEquals(i, pev.values.get(var), "Value of variable i should be " + i + ".");
+            } else if (var.name.equals("x")) {
+                assertEquals(x, pev.values.get(var), "Value of variable x should be " + x + ".");
+            } else {
+                fail("Non-existing variable " + var.name + " occurred");
+            }
+        }
+        assertEquals(0, variables.size(), "Some variables have not been evaluated");
+    }
+
+    @Test
+    public void testDivisionByZero() {
+        try {
+            Statement statement = Sequence(
+                    Declaration(INT,
+                            Var("i"),
+                            OperatorExpression(DIV,
+                                    Literal(5),
+                                    Literal(0)
+                            )
+                    )
+            );
+
+            ptv.visit(statement);
+            pev.visit(statement);
+            fail("Division by zero should throw an exception");
+        } catch (ArithmeticException e) {
+            // Expected behavior
+        }
+    }
+
 }
