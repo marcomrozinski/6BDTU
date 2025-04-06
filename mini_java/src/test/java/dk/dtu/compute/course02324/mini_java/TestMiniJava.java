@@ -35,6 +35,11 @@ public class TestMiniJava{
         pev = new ProgramExecutorVisitor(ptv);
     }
 
+    /**
+     *  Sets up the visitors for type checking and execution.
+     */
+
+
     @Test
     public void testCorrectProgramWithInts() {
         int i = 0;
@@ -78,6 +83,10 @@ public class TestMiniJava{
         }
         assertEquals(0, variables.size(), "Some variables have not been evaluated");
     }
+
+    /**
+     * Tests correct floating-point variable declaration and arithmetic operations
+     */
 
     @Test
     public void testCorrectlyTypedProgramWithFloats() {
@@ -126,6 +135,10 @@ public class TestMiniJava{
 
     }
 
+    /**
+     * Tests detection of type errors in variable declarations and assignments
+     */
+
     @Test
     public void testWronglyTypedProgram() {
         int i;
@@ -160,6 +173,10 @@ public class TestMiniJava{
             fail("No type problems detected in a mistyped statement!");
         }
     }
+
+    /**
+     * Tests nested while loops with integer operations and variable assignments
+     */
 
     @Test
     public void testLoopProgram() {
@@ -238,6 +255,10 @@ public class TestMiniJava{
         }
         assertEquals(0, variables.size(), "Some variables have not been evaluated");
     }
+
+    /**
+     * Tests various operators (unary, binary) with print statements
+     */
 
     @Test
     public void testPrintAndAdditionalOperators() {
@@ -342,6 +363,11 @@ public class TestMiniJava{
         }
         assertEquals(0, variables.size(), "Some variables have not been evaluated");
     }
+
+    /**
+     * Tests integer and floating-point multiplication operations
+     */
+
     @Test
     public void testMultiplicationOperators() {
         int i = 3 * 5;
@@ -387,6 +413,10 @@ public class TestMiniJava{
         }
         assertEquals(0, variables.size(), "Some variables have not been evaluated");
     }
+
+    /**
+     * Tests handling of division by zero exception
+     */
 
     @Test
     public void testDivisionByZero() {
