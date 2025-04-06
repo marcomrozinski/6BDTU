@@ -77,6 +77,11 @@ public class ProgramTypeVisitor extends ProgramVisitor {
         // (which the above accept actually does).
     }
 
+    /**
+     *This method ensures that the expression associated with the while loop is of type integer.
+     *If the type is not an integer, it adds an error message to the list of problems in the visitor.
+     * @param whileLoop
+     */
     public void visit(WhileLoop whileLoop) {
         whileLoop.expression.accept(this);
 
