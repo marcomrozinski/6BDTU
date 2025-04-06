@@ -7,6 +7,17 @@ import static dk.dtu.compute.course02324.mini_java.utils.Shortcuts.*;
 import java.util.*;
 
 import static java.util.Map.entry;
+/**
+ * The ProgramTypeVisitor class is responsible for checking if a MiniJava program is correct
+ * when it comes to "types". It looks at the different elements
+ * of the program, such as variables, operations, and expressions, to make sure everything fits together.
+ * The class acts like a "checker" that goes through the program step by step and verifies:
+ * - Are the variables declared and used properly?
+ * - Are the mathematical operations used with the right types (for example integers and floats)?
+ * - Is there anything that doesn't make sense, like type mismatches or undeclared variables?
+ * If the program has any problems, such as errors in variable use or type violations,
+ * the class will collect these issues and store them in a **problems list**.
+ */
 
 public class ProgramTypeVisitor extends ProgramVisitor {
 
@@ -39,12 +50,24 @@ public class ProgramTypeVisitor extends ProgramVisitor {
         statement.accept(this);
     }
 
+    /**
+    * Visits a sequence of statements.
+     *Goes through each statement one by one to check for any errors.
+     */
+
     @Override
     public void visit(Sequence sequence) {
         for (Statement substatement: sequence.statements) {
             substatement.accept(this);
         }
     }
+
+    /**
+     * Visits a variable declaration and checks if:
+     * - The variable is already declared (duplicates are not allowed).
+     * - The type of the variable matches the expression assigned to it.
+     * If there’s a problem, it will be added to the **problems** list.
+     */
 
     @Override
     public void visit(Declaration declaration) {
@@ -68,6 +91,11 @@ public class ProgramTypeVisitor extends ProgramVisitor {
         }
     }
 
+    /**
+     * Checks a print statement in the program. Ensures the expression being printed is valid.
+     * Example: System.out.println(5 + x). It checks if "5 + x" is correct.
+     */
+
     @Override
     public void visit(PrintStatement printStatement) {
         printStatement.expression.accept(this);
@@ -78,7 +106,7 @@ public class ProgramTypeVisitor extends ProgramVisitor {
     }
 
     /**
-     *This method ensures that the expression associated with the while loop is of type integer
+     *This method ensures that the expression associated with the while loop is of type integer.
      *If the type is not an integer, it adds an error message to the list of problems in the visitor.
      * @param whileLoop
      */
@@ -93,6 +121,9 @@ public class ProgramTypeVisitor extends ProgramVisitor {
         whileLoop.statement.accept(this);
     }
 
+/**
+ * Checks if an assignment is valid.
+*/
     @Override
     public void visit(Assignment assignment) {
         assignment.expression.accept(this);
@@ -109,6 +140,11 @@ public class ProgramTypeVisitor extends ProgramVisitor {
         }
     }
 
+    /**
+     * Checks a literal value in the program. For example:
+     *42 (int literal)
+     *3.14 (float literal)
+     */
     @Override
     public void visit(Literal literal) {
         if (literal instanceof IntLiteral) {
@@ -117,6 +153,11 @@ public class ProgramTypeVisitor extends ProgramVisitor {
             typeMapping.put(literal, FLOAT);
         }
     }
+
+
+    /**
+     * Checks if a variable is valid.
+     */
 
     @Override
     public void visit(Var var) {
@@ -127,6 +168,13 @@ public class ProgramTypeVisitor extends ProgramVisitor {
             problems.add("Variable " + var.name + " does not have a type.");
         }
     }
+
+
+    /**
+     * Checks an operator expression (like: x + 5) and makes sure:
+     *    All subexpressions have the correct type.
+     *    The operator is valid for the given types.
+     */
 
     @Override
     public void visit(OperatorExpression operatorExpression) {
