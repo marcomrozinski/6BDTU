@@ -301,7 +301,6 @@ public class MiniJavaRun {
                                         ))
                 )
         );
-        
     }
 
 }

@@ -7,12 +7,16 @@ import java.util.Map;
 
 public class ProgramSerializerVisitor extends ProgramVisitor  {
 
+    /** StringBuilder to accumulate program output */
     private StringBuilder result = new StringBuilder();
 
+    /** Tracks current indentation level */
     private int indentLevel = 0;
 
+    /** Defines a single indentation unit */
     final private String INDENT = "  ";
 
+    /** Adds indentation spaces to result based on indent level */
     private String addIndentation() {
         String indent = "";
         for (int i=0; i < indentLevel; i++) {
@@ -21,22 +25,17 @@ public class ProgramSerializerVisitor extends ProgramVisitor  {
         return indent;
     }
 
-
+    /** Visits any type of statement */
     public void visit(Statement statement) {
         statement.accept(this);
     }
 
+    /** Serializes a sequence of statements with correct formatting */
     @Override
     public void visit(Sequence sequence) {
         for (Statement statement: sequence.statements) {
-            // Takes care of proper indentation of substatements
             addIndentation();
-
-            // Recursively deals with representation of substatement
             statement.accept(this);
-
-            // The following is just a minor detail:
-            // Making sure that while loops do not end with a semicolon
             if (statement instanceof WhileLoop) {
                 result.append(System.lineSeparator());
             } else {
@@ -45,6 +44,7 @@ public class ProgramSerializerVisitor extends ProgramVisitor  {
         }
     }
 
+    /** Serializes a variable declaration and optional assignment */
     @Override
     public void visit(Declaration declaration) {
         result.append(declaration.type.getName() + " " + declaration.variable.name);
@@ -54,6 +54,7 @@ public class ProgramSerializerVisitor extends ProgramVisitor  {
         }
     }
 
+    /** Serializes a print statement including prefix and optional expression */
     @Override
     public void visit(PrintStatement printStatement) {
         result.append("System.out.println(\"" + printStatement.prefix + "\"");
@@ -64,6 +65,7 @@ public class ProgramSerializerVisitor extends ProgramVisitor  {
         result.append(")");
     }
 
+    /** Serializes a while-loop with its condition and body */
     @Override
     public void visit(WhileLoop whileLoop) {
         result.append("while ( ");
@@ -76,12 +78,14 @@ public class ProgramSerializerVisitor extends ProgramVisitor  {
         result.append("}");
     }
 
+    /** Serializes an assignment of a value to a variable */
     @Override
     public void visit(Assignment assignment) {
         result.append(assignment.variable.name  + " = ");
         assignment.expression.accept(this);
     }
 
+    /** Serializes a literal value (int or float) */
     @Override
     public void visit(Literal literal) {
         if (literal instanceof IntLiteral) {
@@ -93,11 +97,13 @@ public class ProgramSerializerVisitor extends ProgramVisitor  {
         }
     }
 
+    /** Serializes a variable reference */
     @Override
     public void visit(Var var) {
         result.append(var.name);
     }
 
+    /** Serializes an operator expression, including correct formatting and precedence */
     @Override
     public void visit(OperatorExpression operatorExpression) {
         if (operatorExpression.operands.size() == 0) {
@@ -124,6 +130,7 @@ public class ProgramSerializerVisitor extends ProgramVisitor  {
         }
     }
 
+    /** Serializes a single operand considering operator precedence */
     private void operandToString(Operator operator, Expression expression, int number) {
         if (expression instanceof OperatorExpression) {
             OperatorExpression operatorExpression = (OperatorExpression) expression;
@@ -146,8 +153,8 @@ public class ProgramSerializerVisitor extends ProgramVisitor  {
         }
     }
 
+    /** Returns the complete serialized program as a string */
     public String result() {
         return result.toString();
     }
-
 }

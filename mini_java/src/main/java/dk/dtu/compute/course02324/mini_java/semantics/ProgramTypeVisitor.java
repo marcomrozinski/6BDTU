@@ -31,6 +31,7 @@ public class ProgramTypeVisitor extends ProgramVisitor {
      *      be complete for all (primmitive) types of Mini Java on which these
      *      operators make sense.
      */
+    /** Supported types for each operator. */
     final private Map<Operator,List<Type>> operatorTypes = Map.ofEntries(
             entry(PLUS2, List.of(INT, FLOAT)),
             entry(MINUS2, List.of(INT, FLOAT)),
@@ -40,21 +41,21 @@ public class ProgramTypeVisitor extends ProgramVisitor {
             entry(MINUS1, List.of(INT, FLOAT)),
             entry(DIV, List.of(INT, FLOAT)));
 
+    /** Stores the resolved type for each expression. */
     final public Map<Expression, Type> typeMapping = new HashMap<>();
 
+    /** Stores all declared variables. */
     final public Set<Var> variables = new HashSet<>();
 
+    /** Stores all detected type-related problems. */
     final public List<String> problems = new ArrayList<>();
 
+    /** Visits a generic statement. */
     public void visit(Statement statement) {
         statement.accept(this);
     }
 
-    /**
-    * Visits a sequence of statements.
-     *Goes through each statement one by one to check for any errors.
-     */
-
+    /** Visits a sequence of statements. */
     @Override
     public void visit(Sequence sequence) {
         for (Statement substatement: sequence.statements) {
@@ -62,13 +63,7 @@ public class ProgramTypeVisitor extends ProgramVisitor {
         }
     }
 
-    /**
-     * Visits a variable declaration and checks if:
-     * - The variable is already declared (duplicates are not allowed).
-     * - The type of the variable matches the expression assigned to it.
-     * If there’s a problem, it will be added to the **problems** list.
-     */
-
+    /** Checks if a variable is redeclared or mismatched in type. */
     @Override
     public void visit(Declaration declaration) {
         if (declaration.expression != null) {
@@ -91,39 +86,23 @@ public class ProgramTypeVisitor extends ProgramVisitor {
         }
     }
 
-    /**
-     * Checks a print statement in the program. Ensures the expression being printed is valid.
-     * Example: System.out.println(5 + x). It checks if "5 + x" is correct.
-     */
-
+    /** Validates the expression inside a print statement. */
     @Override
     public void visit(PrintStatement printStatement) {
         printStatement.expression.accept(this);
-
-        // Here, we do not need to do anything except for recursively
-        // making sure that the PrintStatements expression is valid
-        // (which the above accept actually does).
     }
 
-    /**
-     *This method ensures that the expression associated with the while loop is of type integer.
-     *If the type is not an integer, it adds an error message to the list of problems in the visitor.
-     * @param whileLoop
-     */
+    /** Ensures the while loop condition is an integer. */
     public void visit(WhileLoop whileLoop) {
         whileLoop.expression.accept(this);
-
         Type expressionType = typeMapping.get(whileLoop.expression);
         if(!INT.equals(expressionType)) {
             problems.add("Not an int: " + (expressionType != null ? expressionType.getName() : "undefined"));
         }
-
         whileLoop.statement.accept(this);
     }
 
-/**
- * Checks if an assignment is valid.
-*/
+    /** Validates assignment type and variable declaration. */
     @Override
     public void visit(Assignment assignment) {
         assignment.expression.accept(this);
@@ -140,11 +119,7 @@ public class ProgramTypeVisitor extends ProgramVisitor {
         }
     }
 
-    /**
-     * Checks a literal value in the program. For example:
-     *42 (int literal)
-     *3.14 (float literal)
-     */
+    /** Detects the type of a literal expression. */
     @Override
     public void visit(Literal literal) {
         if (literal instanceof IntLiteral) {
@@ -154,28 +129,17 @@ public class ProgramTypeVisitor extends ProgramVisitor {
         }
     }
 
-
-    /**
-     * Checks if a variable is valid.
-     */
-
+    /** Ensures a variable is declared and has a type. */
     @Override
     public void visit(Var var) {
         if (!variables.contains(var)) {
             problems.add("Variable not defined " + var);
         } else if (typeMapping.get(var) == null) {
-            // this should actually not happen
             problems.add("Variable " + var.name + " does not have a type.");
         }
     }
 
-
-    /**
-     * Checks an operator expression (like: x + 5) and makes sure:
-     *    All subexpressions have the correct type.
-     *    The operator is valid for the given types.
-     */
-
+    /** Checks if operator expression is valid and types are compatible. */
     @Override
     public void visit(OperatorExpression operatorExpression) {
         Type operandType = null;
@@ -188,7 +152,7 @@ public class ProgramTypeVisitor extends ProgramVisitor {
             if (operandType == null) {
                 operandType = subexpressionType;
             } else if (!operandType.equals(subexpressionType)) {
-                problems.add("Subexpressions of operator do mot match for " + operatorExpression.operator.getName() + ".");
+                problems.add("Subexpressions of operator do not match for " + operatorExpression.operator.getName() + ".");
             }
         }
         if (operandType != null) {
@@ -202,5 +166,4 @@ public class ProgramTypeVisitor extends ProgramVisitor {
             problems.add("Subexpression(s) of operand do not have a type: Operator " + operatorExpression.operator);
         }
     }
-
 }
