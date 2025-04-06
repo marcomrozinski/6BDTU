@@ -154,8 +154,7 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
     }
 
     /**
-     * This method starts by calculating the value of the while loop's condition (its expression).
-     *
+     * This method starts by calculating the value of the while loop's condition (its expression)
      * Firstly it Evaluates the condition (the "expression") of the while loop.
      * then it checks if the condition value is valid (not null) and >= 0:
      *  If yes, execute the loop body (the "statement").
