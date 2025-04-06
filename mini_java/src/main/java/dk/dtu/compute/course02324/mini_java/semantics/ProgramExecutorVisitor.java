@@ -1,3 +1,4 @@
+
 package dk.dtu.compute.course02324.mini_java.semantics;
 
 import dk.dtu.compute.course02324.mini_java.model.*;
@@ -20,37 +21,39 @@ import static java.util.Map.entry;
 
 public class ProgramExecutorVisitor extends ProgramVisitor {
 
+    /** Type visitor to look up types for expressions */
     final private ProgramTypeVisitor pv;
 
+    /** Stores computed values for expressions and variables */
     final public Map<Expression, Number> values = new HashMap<>();
 
-
-    /**
-     * Functions for performing mathematical operations, such as addition, subtraction,
-     * multiplication, division, modulus, and unary operations for integers and floats.
-     */
-
-
+    /** Adds two integers */
     private final Function<List<Number>,Number> plus2int =
             args -> { int arg1 = args.get(0).intValue();
                 int arg2 = args.get(1).intValue();
                 return arg1 + arg2; };
+
+    /** Adds two floats */
     private final Function<List<Number>,Number> plus2float =
             args -> { float arg1 = args.get(0).floatValue();
                 float arg2 = args.get(1).floatValue();
                 return arg1 + arg2; };
+
+    /** Unary plus for int */
     private final Function<List<Number>, Number> plus1int =
             args -> +args.get(0).intValue();
 
+    /** Unary plus for float */
     private final Function<List<Number>, Number> plus1float =
             args -> +args.get(0).floatValue();
 
-
+    /** Subtracts two floats */
     private final Function<List<Number>,Number> minus2float =
             args -> { float arg1 = args.get(0).floatValue();
                 float arg2 = args.get(1).floatValue();
                 return arg1 - arg2; };
 
+    /** Subtracts two ints */
     private final Function<List<Number>,Number> minus2int =
             args -> {
                 int arg1 = args.get(0).intValue();
@@ -58,32 +61,39 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
                 return arg1 - arg2;
             };
 
+    /** Multiplies two floats */
     private final Function<List<Number>,Number> multfloat =
             args -> { float arg1 = args.get(0).floatValue();
                 float arg2 = args.get(1).floatValue();
                 return arg1 * arg2; };
 
+    /** Unary minus for float */
     private final Function<List<Number>,Number> minus1float =
             args -> -args.get(0).floatValue();
 
+    /** Unary minus for int */
     private final Function<List<Number>,Number> minus1int =
             args -> -args.get(0).intValue();
 
+    /** Integer division */
     private final Function<List<Number>,Number> DivInt =
             args -> { int arg1 = args.get(0).intValue();
                 int arg2 = args.get(1).intValue();
                 return arg1 / arg2; };
 
+    /** Float division */
     private final Function<List<Number>,Number> DivFloat =
             args -> { float arg1 = args.get(0).floatValue();
                 float arg2 = args.get(1).floatValue();
                 return arg1 / arg2; };
 
+    /** Integer modulo */
     private final Function<List<Number>,Number> ModInt =
             args -> { int arg1 = args.get(0).intValue();
                 int arg2 = args.get(1).intValue();
                 return arg1 % arg2; };
 
+    /** Multiplies two ints */
     private final Function<List<Number>, Number> multint =
             args -> {
                 int arg1 = args.get(0).intValue();
@@ -91,15 +101,7 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
                 return arg1 * arg2;
             };
 
-    /**
-     * The map below associates each operator for each possible type with a function
-     * (lambda expression), that represents the semantics of that operation. These
-     * define what happens when the operator needs to be executed.<p>
-     *
-     * TODO Assignment 6a: This map and the functions above need to be extended in Assignment 6a
-     *      (all operations with the respective types required in assignment must be defined above
-     *      and added to the mapping below).
-     */
+    /** Maps operators and types to the matching arithmetic function */
     final private Map<Operator, Map<Type, Function<List<Number>,Number>>> operatorFunctions = Map.ofEntries(
             entry(PLUS2, Map.ofEntries(
                     entry(INT, plus2int ),
@@ -117,7 +119,6 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
                     entry(FLOAT, multfloat ),
                     entry(INT, multint)
             )),
-
             entry (MINUS1, Map.ofEntries(
                     entry(FLOAT, minus1float),
                     entry(INT, minus1int))
@@ -131,15 +132,17 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
             ))
     );
 
-
+    /** Constructor initializes type visitor */
     public ProgramExecutorVisitor(ProgramTypeVisitor pv) {
         this.pv = pv;
     }
 
+    /** Evaluates a statement node */
     public void visit(Statement statement) {
         statement.accept(this);
     }
 
+    /** Evaluates a sequence of statements */
     @Override
     public void visit(Sequence sequence) {
         for (Statement substatement: sequence.statements) {
@@ -147,9 +150,7 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
         }
     }
 
-    /**
-     * Here visit a variable declaration, evaluates its expression if present, and assigns the value to the variable.
-     */
+    /** Evaluates a variable declaration */
     @Override
     public void visit(Declaration declaration) {
         if (declaration.expression != null) {
@@ -159,44 +160,27 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
         }
     }
 
-    /**
-     * This visits and executes a PrintStatement by evaluating its expression and printing the result.
-     */
+    /** Evaluates and prints a print statement */
     @Override
     public void visit(PrintStatement printStatement) {
         printStatement.expression.accept(this);
         Number result = values.get(printStatement.expression);
         System.out.println(printStatement.prefix + result);
-
     }
 
-    /**
-     * Executes a while loop by repeatedly evaluating its condition and, if the condition is true,
-     * executing the loop's body. The process continues until the condition evaluates to null
-     * or a non-positive value.
-     * @param whileLoop
-     */
+    /** Repeatedly executes a while-loop */
     @Override
     public void visit(WhileLoop whileLoop) {
         whileLoop.expression.accept(this);
-
-        whileLoop.expression.accept(this);
         Number value = values.get(whileLoop.expression);
-
         while (value != null && value.doubleValue() >= 0) {
             whileLoop.statement.accept(this);
             whileLoop.expression.accept(this);
             value = values.get(whileLoop.expression);
         }
     }
-/**
- * This method visits an assignment, calculates the value of the expression (on the righthand side),
- * and then stores the computed value in the variable (on the lefthand side).
- * For example, if the code is:
- * x = 5 + 3;`
- * The method will first calculate the value of 5 + 3, which is 8.
- * Then, it will store the value `8` in the variable x.
-*/
+
+    /** Evaluates an assignment expression */
     @Override
     public void visit(Assignment assignment) {
         assignment.expression.accept(this);
@@ -205,10 +189,8 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
         values.put(assignment.variable, result);
     }
 
-    /**
-     * Visits a literal (for example integer or float) and stores its value in the values map.
-*/
-     @Override
+    /** Evaluates and stores a literal value */
+    @Override
     public void visit(Literal literal) {
         if (literal instanceof IntLiteral) {
             values.put(literal, ((IntLiteral) literal).literal);
@@ -217,24 +199,18 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
         }
     }
 
+    /** Leaves variable node unchanged */
     @Override
     public void visit(Var var) {
-        // We do not need to do anything here; if the variable was assigned a
-        // value already by an assignment or a declaration, this value will be
-        // in the values map already (the respective assignment or declaration
-        // should have added this value for variable already).
+        // No action needed; variable's value is already stored
     }
 
-/**
- * Evaluates an OperatorExpression by visiting its operands, applying the corresponding operator,
- * and storing the computed result in the values map.
-*/
- @Override
+    /** Evaluates an operator expression */
+    @Override
     public void visit(OperatorExpression operatorExpression) {
         Type type = pv.typeMapping.get(operatorExpression);
         Map<Type,Function<List<Number>,Number>> typeMap = operatorFunctions.get(operatorExpression.operator);
 
-        // Function<List<Number>,Number> function = typeMap != null && type!= null ? typeMap.get(type) : null;
         Function<List<Number>,Number> function = null;
         if (typeMap != null && type!= null ) {
             function = typeMap.get(type);

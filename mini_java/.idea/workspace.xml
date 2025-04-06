@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5846c63f-0819-454b-acfa-e0084418c921" name="Changes" comment="test udkast (IKKE FÆRDIG)">
-      <change beforePath="$PROJECT_DIR$/src/test/java/dk/dtu/compute/course02324/mini_java/TestMiniJava.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/dk/dtu/compute/course02324/mini_java/TestMiniJava.java" afterDir="false" />
+    <list default="true" id="5846c63f-0819-454b-acfa-e0084418c921" name="Changes" comment="test">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dk/dtu/compute/course02324/mini_java/semantics/ProgramExecutorVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dk/dtu/compute/course02324/mini_java/semantics/ProgramExecutorVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dk/dtu/compute/course02324/mini_java/semantics/ProgramSerializerVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dk/dtu/compute/course02324/mini_java/semantics/ProgramSerializerVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dk/dtu/compute/course02324/mini_java/semantics/ProgramTypeVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dk/dtu/compute/course02324/mini_java/semantics/ProgramTypeVisitor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,7 +204,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="test udkast" />
     <MESSAGE value="test udkast (IKKE FÆRDIG)" />
-    <option name="LAST_COMMIT_MESSAGE" value="test udkast (IKKE FÆRDIG)" />
+    <MESSAGE value="test" />
+    <option name="LAST_COMMIT_MESSAGE" value="test" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -209,7 +213,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/test/java/dk/dtu/compute/course02324/mini_java/TestMiniJava.java</url>
           <line>438</line>
-          <properties class="dk.dtu.compute.course02324.mini_java.TestMiniJava" method="testDivisionByZero">
+          <properties class="dk.dtu.compute.course02324.mini_java.TestMiniJava">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
