@@ -84,11 +84,11 @@ public class TestMiniJava{
 
     @Test
     public void testCorrectProgramWithInts() {
-        int i;
+        int i = 0;
         int j = i = 2 + (i = 3) ;
 
         Statement statement = new Sequence(
-                new Declaration(INT, new Var("i")),
+                new Declaration(INT, new Var("i"), new IntLiteral(0)),
                 new Declaration(
                         INT,
                         new Var("j"),
