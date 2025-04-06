@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5846c63f-0819-454b-acfa-e0084418c921" name="Changes" comment="test udkast (IKKE FÆRDIG)">
+      <change beforePath="$PROJECT_DIR$/src/test/java/dk/dtu/compute/course02324/mini_java/TestMiniJava.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/dk/dtu/compute/course02324/mini_java/TestMiniJava.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;marcomrozinski&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/marcomrozinski/6BDTU.git&quot;,
+    &quot;accountId&quot;: &quot;1d251eec-7cd6-4279-a943-473b4e9c99c9&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2vFzmdjN40DE0Qj29EXvBh9xFlj" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.TestMiniJava.testAdditionint.executor": "Run",
+    "JUnit.TestMiniJava.testCorrectProgramWithInts.executor": "Run",
+    "JUnit.TestMiniJava.testDivisionByZero.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/molomanolo/Desktop/Adv. programming/6BDTU/mini_java",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="JUnit.TestMiniJava.testMultiplicationOperators">
+    <configuration name="TestMiniJava.testAdditionint" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="mini_java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dk.dtu.compute.course02324.mini_java.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="dk.dtu.compute.course02324.mini_java" />
+      <option name="MAIN_CLASS_NAME" value="dk.dtu.compute.course02324.mini_java.TestMiniJava" />
+      <option name="METHOD_NAME" value="testAdditionint" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestMiniJava.testCorrectProgramWithInts" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="mini_java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dk.dtu.compute.course02324.mini_java.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="dk.dtu.compute.course02324.mini_java" />
+      <option name="MAIN_CLASS_NAME" value="dk.dtu.compute.course02324.mini_java.TestMiniJava" />
+      <option name="METHOD_NAME" value="testCorrectProgramWithInts" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestMiniJava.testDivisionByZero" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="mini_java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dk.dtu.compute.course02324.mini_java.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="dk.dtu.compute.course02324.mini_java" />
+      <option name="MAIN_CLASS_NAME" value="dk.dtu.compute.course02324.mini_java.TestMiniJava" />
+      <option name="METHOD_NAME" value="testDivisionByZero" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestMiniJava.testMultiplicationOperators" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="mini_java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dk.dtu.compute.course02324.mini_java.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="dk.dtu.compute.course02324.mini_java" />
+      <option name="MAIN_CLASS_NAME" value="dk.dtu.compute.course02324.mini_java.TestMiniJava" />
+      <option name="METHOD_NAME" value="testMultiplicationOperators" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.TestMiniJava.testMultiplicationOperators" />
+        <item itemvalue="JUnit.TestMiniJava.testDivisionByZero" />
+        <item itemvalue="JUnit.TestMiniJava.testCorrectProgramWithInts" />
+        <item itemvalue="JUnit.TestMiniJava.testAdditionint" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.189" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.189" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5846c63f-0819-454b-acfa-e0084418c921" name="Changes" comment="" />
+      <created>1743755770002</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1743755770002</updated>
+      <workItem from="1743755771510" duration="8353000" />
+      <workItem from="1743870672079" duration="1235000" />
+      <workItem from="1743931764466" duration="1585000" />
+    </task>
+    <task id="LOCAL-00001" summary="test udkast (IKKE FÆRDIG)">
+      <option name="closed" value="true" />
+      <created>1743870699222</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1743870699222</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="test udkast" />
+    <MESSAGE value="test udkast (IKKE FÆRDIG)" />
+    <option name="LAST_COMMIT_MESSAGE" value="test udkast (IKKE FÆRDIG)" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/test/java/dk/dtu/compute/course02324/mini_java/TestMiniJava.java</url>
+          <line>438</line>
+          <properties class="dk.dtu.compute.course02324.mini_java.TestMiniJava" method="testDivisionByZero">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
