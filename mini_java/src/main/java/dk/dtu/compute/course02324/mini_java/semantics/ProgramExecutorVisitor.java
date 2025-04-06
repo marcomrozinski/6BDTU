@@ -27,14 +27,12 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
             args -> { float arg1 = args.get(0).floatValue();
                 float arg2 = args.get(1).floatValue();
                 return arg1 + arg2; };
-    private final Function<List<Number>,Number> plus1int =
-            args -> { int arg1 = args.get(0).intValue();
-                int arg2 = args.get(1).intValue();
-                return arg1 + arg2; };
-    private final Function<List<Number>,Number> plus1float =
-            args -> { float arg1 = args.get(0).floatValue();
-                float arg2 = args.get(1).floatValue();
-                return arg1 + arg2; };
+    private final Function<List<Number>, Number> plus1int =
+            args -> +args.get(0).intValue();
+
+    private final Function<List<Number>, Number> plus1float =
+            args -> +args.get(0).floatValue();
+
 
     private final Function<List<Number>,Number> minus2float =
             args -> { float arg1 = args.get(0).floatValue();
@@ -42,9 +40,11 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
                 return arg1 - arg2; };
 
     private final Function<List<Number>,Number> minus2int =
-            args -> { float arg1 = args.get(0).intValue();
+            args -> {
+                int arg1 = args.get(0).intValue();
                 int arg2 = args.get(1).intValue();
-                return arg1 - arg2; };
+                return arg1 - arg2;
+            };
 
     private final Function<List<Number>,Number> multfloat =
             args -> { float arg1 = args.get(0).floatValue();
@@ -52,14 +52,10 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
                 return arg1 * arg2; };
 
     private final Function<List<Number>,Number> minus1float =
-            args -> { float arg1 = args.get(0).floatValue();
-                float arg2 = args.get(1).floatValue();
-                return arg1 - arg2; };
+            args -> -args.get(0).floatValue();
 
     private final Function<List<Number>,Number> minus1int =
-            args -> { int arg1 = args.get(0).intValue();
-                int arg2 = args.get(1).intValue();
-                return arg1 - arg2; };
+            args -> -args.get(0).intValue();
 
     private final Function<List<Number>,Number> DivInt =
             args -> { int arg1 = args.get(0).intValue();
@@ -75,6 +71,14 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
             args -> { int arg1 = args.get(0).intValue();
                 int arg2 = args.get(1).intValue();
                 return arg1 % arg2; };
+
+    private final Function<List<Number>, Number> multint =
+            args -> {
+                int arg1 = args.get(0).intValue();
+                int arg2 = args.get(1).intValue();
+                return arg1 * arg2;
+            };
+
     /**
      * The map below associates each operator for each possible type with a function
      * (lambda expression), that represents the semantics of that operation. These
@@ -98,8 +102,10 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
                     entry(INT, minus2int) )
             ),
             entry(MULT, Map.ofEntries(
-                    entry(FLOAT, multfloat ) )
-            ),
+                    entry(FLOAT, multfloat ),
+                    entry(INT, multint)
+            )),
+
             entry (MINUS1, Map.ofEntries(
                     entry(FLOAT, minus1float),
                     entry(INT, minus1int))
@@ -137,6 +143,7 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
             values.put(declaration.variable, result);
         }
     }
+
 
     @Override
     public void visit(PrintStatement printStatement) {

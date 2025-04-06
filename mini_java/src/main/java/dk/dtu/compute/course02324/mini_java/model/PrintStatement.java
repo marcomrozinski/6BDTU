@@ -18,5 +18,4 @@ public class PrintStatement implements Statement {
     public void accept(ProgramVisitor visitor) {
         visitor.visit(this);
     }
-
 }

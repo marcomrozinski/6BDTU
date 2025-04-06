@@ -389,5 +389,4 @@ public class TestMiniJava{
         }
         assertEquals(0, variables.size(), "Some variables have not been evaluated");
     }
-
 }

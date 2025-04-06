@@ -3,6 +3,8 @@ package dk.dtu.compute.course02324.mini_java;
 import dk.dtu.compute.course02324.mini_java.model.*;
 import dk.dtu.compute.course02324.mini_java.semantics.*;
 
+import java.util.List;
+
 import static dk.dtu.compute.course02324.mini_java.utils.Shortcuts.*;
 import static dk.dtu.compute.course02324.mini_java.model.Operator.*;
 
@@ -299,6 +301,7 @@ public class MiniJavaRun {
                                         ))
                 )
         );
+        
     }
 
 }
